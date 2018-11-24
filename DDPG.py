@@ -97,42 +97,18 @@ def ddpg(n_episodes=1000, max_t=300, print_every=100):
     return scores, mean_scores
 
 
-if args.train:
-    print('Training the agent for {} episodes...'.format(args.num_episodes))
-    scores, mean_scores = ddpg(n_episodes=args.num_episodes, max_t=1000)
+print('Training the agent for {} episodes...'.format(args.num_episodes))
+scores, mean_scores = ddpg(n_episodes=args.num_episodes, max_t=1000)
 
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    plt.plot(np.arange(1, len(scores)+1), scores, label='scores')
-    plt.plot(np.arange(1, len(mean_scores)+1), mean_scores, label='running mean over 100 episodes')
-    plt.ylabel('Score')
-    plt.xlabel('Episode #')
-    plt.legend(loc='lower right')
-    plt.grid()
-    plt.savefig('training_scores.png', format='png', dpi=1000)
-    plt.show()
+fig = plt.figure()
+ax = fig.add_subplot(111)
+plt.plot(np.arange(1, len(scores)+1), scores, label='scores')
+plt.plot(np.arange(1, len(mean_scores)+1), mean_scores, label='running mean over 100 episodes')
+plt.ylabel('Score')
+plt.xlabel('Episode #')
+plt.legend(loc='lower right')
+plt.grid()
+plt.savefig('training_scores.png', format='png', dpi=1000)
+plt.show()
 
-print('\nvisualizing trained agent')
-
-try:
-    # load the weights from file
-    agent.actor_local.load_state_dict(torch.load('checkpoint_actor.pth'))
-    agent.critic_local.load_state_dict(torch.load('checkpoint_critic.pth'))
-except:
-    raise Exception('Could not load checkpoint!')
-
-env_info = env.reset(train_mode=False)[brain_name] # reset the environment
-state = env_info.vector_observations[0]            # get the current state
-scores = np.zeros(num_agents)                          # initialize the score (for each agent)
-while True:
-    action = agent.act(state)
-    action = np.clip(action, -1, 1)                  # all actions between -1 and 1
-    env_info = env.step(action)[brain_name]           # send all actions to tne environment
-    next_states = env_info.vector_observations         # get next state (for each agent)
-    dones = env_info.local_done[0]                        # see if episode finished
-    scores += env_info.rewards                         # update the score (for each agent)
-    states = next_states                               # roll over states to next time step
-    if np.any(dones):                                  # exit loop if episode finished
-        break
-print('Total score (averaged over agents) this episode: {}'.format(np.mean(scores)))
 env.close()
