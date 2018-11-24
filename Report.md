@@ -20,7 +20,7 @@ The observation space consists of 33 variables corresponding to position, rotati
 
 ### 2. Learning Algorithm
 We train the network using DDPG algorithm. For the Actor, we use a three layer MLP with 128 and 128 neurons respectively in hidden layers. The state vector is the 33 dimensional vector described in section 1. The output vector is of size 4.
-We train the network using Adam optimize with an actor learning rate of 0.0002, critic learning rate of 0.0002 and batch size of 128. We use a discount factor of 0.99.
+We train the network using Adam optimizer with an actor learning rate of 0.0002, critic learning rate of 0.0002 and batch size of 128. We use a discount factor of 0.99.
 
 ### 3. Results
 The figure below shows average rewards per episode as the agent is being trained. The training is terminated when the average reward per episode reaches 30. We were able to solve the environement in 125 episodes.
@@ -28,6 +28,9 @@ The figure below shows average rewards per episode as the agent is being trained
 ![Rewards per episode][image2]
 
 ### 4. Future Work
+We trained a single agent version of the environment. A natural extension is to train a multi-agent version, which should provide better convergence. PPO, A3C, and D4PG that use multiple (non-interacting, parallel) copies of the same agent to distribute the task of gathering experience can be used with the multi-agent version of the environment.
+
+
   
 ### References
 DDPG paper: https://arxiv.org/abs/1509.02971
