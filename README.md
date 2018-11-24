@@ -53,11 +53,5 @@ sudo apt install python3-tk
 ### Training an agent
 To train an agent run the following command
 ```
-python DDPG.py --train --num_episodes 500
-```
-
-### Visualizing a trained agent
-To visualize the agent you trained, run the following (note that a trained agent checkpoint is also provided)
-```
-python DDPG.py
+python DDPG.py --num_episodes 500
 ```
