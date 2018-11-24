@@ -1,37 +1,36 @@
 [//]: # (Image References)
 
-[image1]: https://user-images.githubusercontent.com/10624937/42135619-d90f2f28-7d12-11e8-8823-82b970a54d7e.gif "Trained Agent"
-[image2]: https://github.com/shashanktyagi/p1_navigation/blob/master/training_scores.png
+[image1]: https://user-images.githubusercontent.com/10624937/43851024-320ba930-9aff-11e8-8493-ee547c6af349.gif "Trained Agent"
+[image2]: https://github.com/shashanktyagi/p2_continuous-control/blob/master/training_scores.png
 
 # Project 1: Navigation
 
-### 1. Introduction
+### Introduction
 
-For this project, we train an agent to navigate (and collect bananas!) in a large, square world.  
+For this project, we worked with the [Reacher](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Learning-Environment-Examples.md#reacher) environment.
 
 ![Trained Agent][image1]
 
-A reward of +1 is provided for collecting a yellow banana, and a reward of -1 is provided for collecting a blue banana.  Thus, the goal of your agent is to collect as many yellow bananas as possible while avoiding blue bananas.  
+In this environment, a double-jointed arm can move to target locations. A reward of +0.1 is provided for each step that the agent's hand is in the goal location. Thus, the goal of your agent is to maintain its position at the target location for as many time steps as possible.
 
-The state space has 37 dimensions and contains the agent's velocity, along with ray-based perception of objects around agent's forward direction.  Given this information, the agent has to learn how to best select actions.  Four discrete actions are available, corresponding to:
-- **`0`** - move forward.
-- **`1`** - move backward.
-- **`2`** - turn left.
-- **`3`** - turn right.
+The observation space consists of 33 variables corresponding to position, rotation, velocity, and angular velocities of the arm. Each action is a vector with four numbers, corresponding to torque applicable to two joints. Every entry in the action vector should be a number between -1 and 1.
 
-**Environment solved criterion:** The task is episodic, and in order to solve the environment, the agent must get an average score of +13 over 100 consecutive episodes.
+**Environment solved criterion:** We solve the single agent version of the environment. The task is episodic, and in order to solve the environment, the agent must get an average score of +30 over 100 consecutive episodes.
+
 
 ### 2. Learning Algorithm
-We train the network using deep Q-Learning algorithm. For the Q-Network, we use a four layer MLP with 64, 128, 128 and 128 neurons respectively in hidden layers. The state vector is the 37 dimensional vector described in section 1.
-We train the network using Adam optimize with a learning rate of 0.0005 and batch size of 64. We use a discount factor of 0.99.
+We train the network using DDPG algorithm. For the Actor, we use a three layer MLP with 128 and 128 neurons respectively in hidden layers. The state vector is the 33 dimensional vector described in section 1. The output vector is of size 4.
+We train the network using Adam optimizer with an actor learning rate of 0.0002, critic learning rate of 0.0002 and batch size of 128. We use a discount factor of 0.99.
 
 ### 3. Results
-The figure below shows average rewards per episode as the agent is being trained. The training is terminated when the average reward per episode reaches 13. We were able to solve the environement in 401 episodes.
+The figure below shows average rewards per episode as the agent is being trained. The training is terminated when the average reward per episode reaches 30. We were able to solve the environement in 125 episodes.
 
 ![Rewards per episode][image2]
 
 ### 4. Future Work
-  Since the discovery of Q-Learing algorithm, there have been a lot of improvement in this field viz. double DQN, Duelling DQN and prioritized experience replay. The future work involves the implementation of these algorithms and compare the results. The algorithm have shown better results on numerous problems. Thus, we expect them to train the agent in less number of episodes.
-  We would also like to train the network based on the raw image as input state vector. This would require a Convolutional Neural Network and the Q-Network.
+We trained a single agent version of the environment. A natural extension is to train a multi-agent version, which should provide better convergence. PPO, A3C, and D4PG that use multiple (non-interacting, parallel) copies of the same agent to distribute the task of gathering experience can be used with the multi-agent version of the environment.
+
+
+  
 ### References
-DQN paper: https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf
+DDPG paper: https://arxiv.org/abs/1509.02971
